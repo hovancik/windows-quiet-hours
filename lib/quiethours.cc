@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <malloc.h>
 #include <stdio.h>
+#include <string.h>
 #else
 #include <stdbool.h>
 #endif
@@ -16,7 +17,7 @@ Napi::Boolean Method(const Napi::CallbackInfo& info) {
 
   #ifdef _WIN32
   HKEY hKey;
-  LPTSTR lpValueName = "NOC_GLOBAL_SETTING_TOASTS_ENABLED";
+  std::string lpValueName = "NOC_GLOBAL_SETTING_TOASTS_ENABLED";
   LONG lResult;
   DWORD dwValue = sizeof(true);
   DWORD dwType, dwSize = sizeof(dwValue);
@@ -24,7 +25,7 @@ Napi::Boolean Method(const Napi::CallbackInfo& info) {
 
   if (lResult == ERROR_SUCCESS)
   {
-    lResult = RegQueryValueEx(hKey, lpValueName, 0, &dwType, (LPBYTE)&dwValue, &dwSize);
+    lResult = RegQueryValueEx(hKey, lpValueName.c_str(), 0, &dwType, (LPBYTE)&dwValue, &dwSize);
     RegCloseKey (hKey);
   }
 
